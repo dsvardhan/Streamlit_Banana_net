@@ -4,6 +4,10 @@ import torch.nn as nn
 import pandas as pd
 import numpy as np
 import time
+import logging
+
+# Set up logging
+logging.basicConfig(level=logging.INFO)
 
 # Define the model class
 class BananaNet(nn.Module):
@@ -54,14 +58,23 @@ if st.button('Predict'):
     with torch.no_grad():
         prediction = model(input_tensor).item()
     prediction_end_time = time.time()
+    
+    prediction_time = prediction_end_time - prediction_start_time
     st.write(f'Prediction: {"Good" if prediction > 0.5 else "Bad"} (Score: {prediction:.4f})')
     
     # Display prediction time
-    st.write(f'Prediction Time: {prediction_end_time - prediction_start_time:.6f} seconds')
+    st.write(f'Prediction Time: {prediction_time:.6f} seconds')
+    
+    # Log prediction time
+    logging.info(f'Prediction Time: {prediction_time:.6f} seconds')
 
 # Display app load time
 end_time = time.time()
-st.write(f'App Load Time: {end_time - start_time:.6f} seconds')
+app_load_time = end_time - start_time
+st.write(f'App Load Time: {app_load_time:.6f} seconds')
+
+# Log app load time
+logging.info(f'App Load Time: {app_load_time:.6f} seconds')
 
 # Display the model architecture
 st.header('Model Architecture')
