@@ -2,3 +2,4 @@ streamlit
 torch
 pandas
 numpy
+time
